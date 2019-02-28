@@ -1,62 +1,86 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <testList msg="Welcome to ACS Code Challenge using Vue.js" />
-      <h1>Your IP is {{ ip }}</h1>
-      <input type="text" v-model="input.firstname" placeholder="First Name" />
-      <input type="text" v-model="input.lastname" placeholder="Last Name" />
-      <button v-on:click="sendData()">Send</button>
-      <br />
-      <br />
-      <textarea>{{ response }}</textarea>
+    <h1>Panel Tests</h1>
+    <button class="btn btn-primary" v-on:click="refreshData">
+      <span v-if="panels.length > 0">Refresh Lists</span>
+      <span v-if="panels.length == 0">Generate Lists</span>
+    </button>
+    <div class="card" v-for="panel in panels">
+      <div class="card-header bg-info">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2 class="text-white">{{ panel.name }} ({{ panel.abbreviation }}) {{ panel.identifier }}</h2>
+            <p>{{ panel.description }}</p>
+          </div>
+          <div class="col-sm-6">
+            <h6 class="text-white">Created At: {{ panel.created_at }}</h6>
+            <h6 class="text-white">Updated At: {{ panel.updated_at }}</h6>
+          </div>
+        </div>
+      </div>
+      <div class="card-block p-3">
+        <div class="row list p-2" v-for="test in tests" v-if="(panel.id == test.panel_id)?true:false">
+          <div class="col-sm-5">
+              <h6><b class="text-info">Name: </b>{{ test.name }}</h6>
+              <h6><b class="text-info">Alias: </b>{{ test.alias }}</h6>
+              <h6><b class="text-info">Abbreviation: </b>{{ test.abbreviation }}</h6>
+              <h6><b class="text-info">Identifier: </b>{{ test.identifier }}</h6>
+          </div>
+          <div class="col-sm-3">
+            <h6><b class="text-info">Low Value: </b>{{ test.low_value }}</h6>
+            <h6><b class="text-info">High Value: </b>{{ test.high_value }}</h6>
+          </div>
+          <div class="col-sm-4">
+            <h6><b class="text-info">Created At: </b><br/>{{ test.created_at }}</h6>
+            <h6><b class="text-info">Updated At: </b><br/>{{ test.updated_at }}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import testList from "./components/testList.vue";
 
 import axios from "axios";
 
 export default {
   name: 'app',
   data () {
-      return {
-          ip: "",
-          input: {
-            firstname: "",
-            lastname: ""
-          },
-          response: ""
-      }
+    return {
+        panels: "",
+        tests: "",
+    }
   },
   mounted() { 
-    axios({ method: "GET", "url": "https://httpbin.org/ip" }).then(result => {
-        this.ip = result.data.origin;
-      }, error => {
-        console.error(error);
-      });
+    // axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/tests" }).then(result => {
+    //     this.tests = result.data;
+    //   }, error => {
+    //     console.error(error);
+    //   });
+
+    // axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/panels" }).then(result => {
+    //     this.panels = result.data;
+    //   }, error => {
+    //     console.error(error);
+    //   });
   },
   methods: { 
-    sendData() {
-      axios({ method: "POST", 
-              "url": "https://httpbin.org/post", 
-              "data": this.input, 
-              "headers": { "content-type": "application/json" } 
-            }).then(result => {
-        this.response = result.data;
-      }, error => {
+    refreshData: function() {
+      axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/tests" }).then(result => {
+          this.tests = result.data;
+        }, error => {
           console.error(error);
-      });
-    }
+        });
+
+      axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/panels" }).then(result => {
+          this.panels = result.data;
+        }, error => {
+          console.error(error);
+        });
+      }
   }
 }
-
-// export default {
-//   name: "app",
-//   components: {
-//     testList
-//   }
-// };
 
 </script>
 
