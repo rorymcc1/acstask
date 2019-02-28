@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <h1>Panel Tests</h1>
-    <button class="btn btn-primary" v-on:click="refreshData">
-      <span v-if="panels.length > 0">Refresh Lists</span>
-      <span v-if="panels.length == 0">Generate Lists</span>
+    <h1>Test Results</h1>
+    <button v-if="panels.length > 0" class="btn btn-info" v-on:click="refreshData">
+      Refresh Lists
+    </button>
+    <button v-if="panels.length == 0" class="btn btn-success" v-on:click="refreshData">
+      Generate Lists
     </button>
     <div class="card" v-for="panel in panels">
       <div class="card-header bg-info">
@@ -42,45 +44,33 @@
 
 <script>
 
-import axios from "axios";
+  import axios from "axios";
 
-export default {
-  name: 'app',
-  data () {
-    return {
-        panels: "",
-        tests: "",
-    }
-  },
-  mounted() { 
-    // axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/tests" }).then(result => {
-    //     this.tests = result.data;
-    //   }, error => {
-    //     console.error(error);
-    //   });
-
-    // axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/panels" }).then(result => {
-    //     this.panels = result.data;
-    //   }, error => {
-    //     console.error(error);
-    //   });
-  },
-  methods: { 
-    refreshData: function() {
-      axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/tests" }).then(result => {
-          this.tests = result.data;
-        }, error => {
-          console.error(error);
-        });
-
-      axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/panels" }).then(result => {
-          this.panels = result.data;
-        }, error => {
-          console.error(error);
-        });
+  export default {
+    name: 'app',
+    data () {
+      return {
+          panels: "",
+          tests: "",
       }
+    },
+    mounted() {},
+    methods: { 
+      refreshData: function() {
+        axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/tests" }).then(result => {
+            this.tests = result.data;
+          }, error => {
+            console.error(error);
+          });
+
+        axios({ method: "GET", "url": "http://challenge.acslabtest.com/api/lab/panels" }).then(result => {
+            this.panels = result.data;
+          }, error => {
+            console.error(error);
+          });
+        }
+    }
   }
-}
 
 </script>
 
