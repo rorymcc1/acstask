@@ -2,10 +2,10 @@
   <div id="app">
     <h1>Test Resultssssssssssssss</h1>
     <button v-if="panels.length > 0" class="btn btn-info" v-on:click="refreshData">
-      Refresh Lists
+      Refresh Listsssssssssssssss
     </button>
     <button v-if="panels.length == 0" class="btn btn-success" v-on:click="refreshData">
-      Generate Lists
+      Generate Listsssssssssssss
     </button>
     <div class="card" v-for="panel in panels">
       <div class="card-header bg-info">
