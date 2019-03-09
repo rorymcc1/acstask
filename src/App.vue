@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Test Resultsxxxxxxxxxxxxxxxx</h1>
+    <h1>Test Results</h1>
     <button v-if="panels.length > 0" class="btn btn-info" v-on:click="refreshData">
       Refresh List
     </button>
